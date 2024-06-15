@@ -15,8 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const updatedTask = { ...currentTask, task: newTaskText };
             window.api.send('edit-task', updatedTask);
             window.close();
-            // // Reload tasks after successful edit
-            // window.api.send('reload-tasks');
         }
     });
 
