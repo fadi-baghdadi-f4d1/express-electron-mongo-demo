@@ -12,13 +12,13 @@ function createWindow() {
         width: 800,
         height: 600,
         webPreferences: {
-            preload: path.join(__dirname, 'preload.js'),
+            preload: path.join(__dirname, 'mainPreload.js'),
             contextIsolation: true,
             enableRemoteModule: false
         }
     });
 
-    mainWindow.loadFile(path.join(__dirname, 'index.html'));
+    mainWindow.loadFile(path.join(__dirname, '../renderer/index.html'));
 
     // Fetch tasks and send them to the renderer process
     fetchTasks().then(tasks => {
@@ -88,23 +88,25 @@ ipcMain.on('open-edit-window', (event, task) => {
     const editWindow = new BrowserWindow({
         width: 400,
         height: 300,
+        frame: false,  // Remove window frame (title bar and borders)
+        resizable: false,  // Disable window resizing
         parent: BrowserWindow.getFocusedWindow(),
         modal: true,
         webPreferences: {
-            preload: path.join(__dirname, 'edit-preload.js'),
+            preload: path.join(__dirname, 'editPreload.js'),
             contextIsolation: true,
             enableRemoteModule: false
         }
     });
 
-    editWindow.loadFile(path.join(__dirname, 'editView.html'));
+    editWindow.loadFile(path.join(__dirname, '../renderer/editView.html'));
 
     editWindow.webContents.once('did-finish-load', () => {
         editWindow.webContents.send('load-task', task);
     });
 
     // Open the DevTools.
-    editWindow.webContents.openDevTools();
+    // editWindow.webContents.openDevTools();
 });
 
 // fetching tasks

@@ -77,8 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Receive reload-tasks event
     window.api.receive('reload-tasks', (tasks) => {
-        console.log("Received reload-tasks event");
-
         renderTasks(tasks);
     });
 });
